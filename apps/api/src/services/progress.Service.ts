@@ -1,12 +1,14 @@
 import { getDb } from '../db/client'
 import { ratings, users } from '../db/schema'
 import { eq, count } from 'drizzle-orm'
+import type { AppEnv } from '../types'
+import { ensureUserExists } from './user.Service'
 
-export const fetchProgress = async (db: D1Database, userId: string) => {
-  const ormDb = getDb(db)
+export const fetchProgress = async (env: AppEnv['Bindings'], userId: string) => {
+  const ormDb = getDb(env.DB)
   
-  // Ensure the user exists in the local table explicitly to avoid issues
-  await ormDb.insert(users).values({ id: userId }).onConflictDoNothing()
+  //ensure the user exists and grab profile data via Clerk
+  await ensureUserExists(env, userId)
 
   const userRecord = await ormDb.select({ isCompleted: users.isCompleted }).from(users).where(eq(users.id, userId))
   const isCompleted = userRecord[0]?.isCompleted || false

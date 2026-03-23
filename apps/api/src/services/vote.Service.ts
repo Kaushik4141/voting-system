@@ -2,18 +2,20 @@ import type { VoteRequest } from '@repo/shared'
 import { getDb } from '../db/client'
 import { ratings, users } from '../db/schema'
 import { eq, count } from 'drizzle-orm'
+import type { AppEnv } from '../types'
+import { ensureUserExists } from './user.Service'
 
 export const submitVote = async (
-  db: D1Database,
+  env: AppEnv['Bindings'],
   userId: string,
   vote: VoteRequest
 ) => {
   const { stallId, rating } = vote
-  const ormDb = getDb(db)
+  const ormDb = getDb(env.DB)
 
   try {
-    // 1. Ensure the user exists in our local 'users' table
-    await ormDb.insert(users).values({ id: userId }).onConflictDoNothing()
+    // 1. Ensure whether the user exists 
+    await ensureUserExists(env, userId)
 
     // 2. Now proceed with the vote
     await ormDb.insert(ratings).values({ userId, stallId, rating })

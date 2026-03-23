@@ -5,7 +5,7 @@ export const users = sqliteTable('users', {
   name: text('name'),
   email: text('email'),
   isCompleted: integer('is_completed', { mode: 'boolean' }).default(false),
-  createdAt: integer('created_at', { mode: 'timestamp' }).default(new Date()),
+  createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
   
 });
 
@@ -13,7 +13,7 @@ export const stalls = sqliteTable('stalls', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   name: text('name'),
   qrSlug: text('qr_slug').unique(),
-  createdAt: integer('created_at', { mode: 'timestamp' }).default(new Date()),
+  createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
 });
 
 export const ratings = sqliteTable('ratings', {
@@ -21,7 +21,7 @@ export const ratings = sqliteTable('ratings', {
   userId: text('user_id').references(() => users.id),
   stallId: integer('stall_id').references(() => stalls.id),
   rating: integer('rating').notNull(),
-  createdAt: integer('created_at', { mode: 'timestamp' }).default(new Date()),
+  createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
 }, (table) => ({
   unq: uniqueIndex('unique_vote').on(table.userId, table.stallId),
 }));

@@ -6,7 +6,7 @@ export const getProgress = async (c: Context<AppEnv>) => {
   const userId = c.get('userId')
   
   try {
-    const data = await fetchProgress(c.env.DB, userId)
+    const data = await fetchProgress(c.env, userId)
     return c.json(data)
   } catch (e: any) {
     console.error('Progress error:', e)

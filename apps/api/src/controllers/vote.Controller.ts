@@ -24,7 +24,7 @@ export const createVote = async (c: Context<AppEnv>) => {
   }
 
   try {
-    const progressCount = await submitVote(c.env.DB, userId, body)
+    const progressCount = await submitVote(c.env, userId, body)
     
     const response: VoteResponse = {
       success: true,
