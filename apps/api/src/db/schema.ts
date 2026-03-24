@@ -13,11 +13,9 @@ export const stalls = sqliteTable('stalls', {
   name: text('name').notNull(),
   description: text('description'),
   logo: text('logo'),
-  qrSlug: text('qr_slug').notNull(), // ✅ added
+  qrSlug: text('qr_slug').unique().notNull(), // ✅ clean unique
   createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
-}, (table) => ({
-  qrSlugIdx: uniqueIndex('qr_slug_unique').on(table.qrSlug), // ✅ unique index
-}));
+});
 
 export const ratings = sqliteTable('ratings', {
   id: integer('id').primaryKey({ autoIncrement: true }),
