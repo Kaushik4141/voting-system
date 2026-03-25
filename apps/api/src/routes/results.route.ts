@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { getDb } from '../db/client';
 import { stalls, ratings, users } from '../db/schema';
-import { eq, sum } from 'drizzle-orm';
+import { eq, sum, count, gte, inArray } from 'drizzle-orm';
 import type { AppEnv } from '../types';
 
 const resultsRoutes = new Hono<AppEnv>();
@@ -16,8 +16,16 @@ resultsRoutes.get('/', async (c) => {
         totalScore: sum(ratings.rating).mapWith(Number),
       })
       .from(ratings)
-      .innerJoin(users, eq(ratings.userId, users.id))
-      .where(eq(users.isCompleted, true))
+      .where(
+        inArray(
+          ratings.userId,
+          db
+            .select({ userId: ratings.userId })
+            .from(ratings)
+            .groupBy(ratings.userId)
+            .having(gte(count(ratings.userId), 10))
+        )
+      )
       .groupBy(ratings.stallId);
 
     const scoreMap = new Map(validScores.map((s: { stallId: number | null, totalScore: number }) => [s.stallId, s.totalScore || 0]));
