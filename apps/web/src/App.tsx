@@ -6,12 +6,13 @@
 import { useState, useEffect } from "react";
 import { useAuth, useUser } from "@clerk/react";
 import LoginScreen from "./components/LoginScreen";
+import AuthScreen from "./components/AuthScreen";
 import RatingScreen from "./components/RatingScreen";
 import ProgressScreen from "./components/ProgressScreen";
 import ScannerScreen from "./components/ScannerScreen";
 import CompletionScreen from "./components/CompletionScreen";
 
-type Screen = 'login' | 'rating' | 'progress' | 'scanner' | 'completion';
+type Screen = 'login' | 'auth' | 'rating' | 'progress' | 'scanner' | 'completion';
 
 const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8000'
 
@@ -123,7 +124,11 @@ export default function App() {
   return (
     <main className="min-h-screen bg-[#2A0040]">
       {currentScreen === 'login' && (
-        <LoginScreen />
+        <LoginScreen onStart={() => setCurrentScreen('auth')} />
+      )}
+
+      {currentScreen === 'auth' && (
+        <AuthScreen />
       )}
 
       {currentScreen === 'scanner' && (
