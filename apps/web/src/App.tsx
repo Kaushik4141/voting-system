@@ -7,10 +7,10 @@ import { useState, useEffect } from "react";
 import { useAuth, useUser } from "@clerk/react";
 import LoginScreen from "./components/LoginScreen";
 import AuthScreen from "./components/AuthScreen";
-import RatingScreen from "./components/RatingScreen";
 import ProgressScreen from "./components/ProgressScreen";
 import ScannerScreen from "./components/ScannerScreen";
 import CompletionScreen from "./components/CompletionScreen";
+import RatingScreen from "./components/RatingScreen";
 
 type Screen = 'login' | 'auth' | 'rating' | 'progress' | 'scanner' | 'completion';
 

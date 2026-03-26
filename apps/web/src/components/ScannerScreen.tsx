@@ -17,15 +17,15 @@ export default function ScannerScreen({ onScanSuccess, onClose }: ScannerScreenP
   useEffect(() => {
     let isUnmounted = false;
     let html5QrCode: Html5Qrcode | null = null;
-    
+
     // Slight delay to ensure DOM is ready and avoid strict-mode double mount race
     const timer = setTimeout(async () => {
       if (isUnmounted) return;
-      
+
       try {
         html5QrCode = new Html5Qrcode("reader");
         scannerRef.current = html5QrCode;
-        
+
         await html5QrCode.start(
           { facingMode: "environment" },
           {
@@ -106,29 +106,29 @@ export default function ScannerScreen({ onScanSuccess, onClose }: ScannerScreenP
         </button>
       </header>
 
-      {/* Scanner Viewfinder */}
-      <div className="flex-1 flex flex-col items-center justify-center relative">
-        {/* Camera Feed Container */}
-        <div className="absolute inset-0 bg-slate-900 overflow-hidden">
-          <div 
-            id="reader" 
-            className="w-full h-full [&>video]:object-cover [&>video]:w-full [&>video]:h-full"
-          ></div>
-          {error && (
-            <div className="absolute inset-0 flex items-center justify-center p-8 text-center bg-slate-900 z-30">
-              <div className="max-w-xs">
-                <X className="w-12 h-12 text-rose-500 mx-auto mb-4" />
-                <p className="text-white/80 text-sm mb-6">{error}</p>
-                <button 
-                  onClick={() => window.location.reload()}
-                  className="px-6 py-2 bg-white/10 rounded-full border border-white/20 text-sm font-bold"
-                >
-                  Retry
-                </button>
+        {/* Scanner Viewfinder */}
+        <div className="flex-1 flex flex-col items-center justify-center relative">
+          {/* Camera Feed Container */}
+          <div className="absolute inset-0 bg-slate-900 overflow-hidden">
+            <div
+              id="reader"
+              className="w-full h-full [&>video]:object-cover [&>video]:w-full [&>video]:h-full"
+            ></div>
+            {error && (
+              <div className="absolute inset-0 flex items-center justify-center p-8 text-center bg-slate-900 z-30">
+                <div className="max-w-xs">
+                  <X className="w-12 h-12 text-rose-500 mx-auto mb-4" />
+                  <p className="text-white/80 text-sm mb-6">{error}</p>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="px-6 py-2 bg-white/10 rounded-full border border-white/20 text-sm font-bold"
+                  >
+                    Retry
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
 
         <div className="mt-auto mb-12 text-center px-8 z-20 relative bg-black/40 p-4 rounded-xl backdrop-blur-md max-w-sm">
           <h2 className="text-xl font-bold mb-2 drop-shadow-lg">Scan Stall QR Code</h2>
@@ -144,7 +144,7 @@ export default function ScannerScreen({ onScanSuccess, onClose }: ScannerScreenP
 
       {/* Success Overlay */}
       {!isScanning && !error && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="absolute inset-0 bg-emerald-500 flex items-center justify-center z-[100]"
