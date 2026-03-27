@@ -3,14 +3,10 @@ import { CheckCircle2, Star } from 'lucide-react';
 
 interface CompletionScreenProps {
   onClose: () => void;
-  onGoToProfile: () => void;
-  onViewLeaderboard: () => void;
 }
 
 export default function CompletionScreen({ 
-  onClose, 
-  onGoToProfile, 
-  onViewLeaderboard 
+  onClose
 }: CompletionScreenProps) {
   return (
     <div
@@ -35,7 +31,7 @@ export default function CompletionScreen({
           <img
             src="/Fiza_logo.webp"
             alt="Fiza"
-            className="h-60 sm:h-80 w-auto object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] translate-x-2 -translate-y-24 sm:translate-x-4 sm:-translate-y-28"
+            className="h-60 sm:h-80 w-auto object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.1)] translate-x-4 -translate-y-24 sm:translate-x-8 sm:-translate-y-28"
           />
         </div>
 
@@ -91,21 +87,6 @@ export default function CompletionScreen({
             </p>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md shrink-0">
-            <button
-              onClick={onGoToProfile}
-              className="px-6 py-3 bg-gradient-to-r from-[#8B5CF6] to-[#6D28D9] rounded-xl font-bold text-white hover:opacity-90 transition-opacity flex-1"
-            >
-              Go to Profile
-            </button>
-            <button
-              onClick={onViewLeaderboard}
-              className="px-6 py-3 bg-white/10 backdrop-blur-sm rounded-xl font-bold text-white hover:bg-white/20 transition-colors flex-1 border border-white/20"
-            >
-              View Leaderboard
-            </button>
-          </div>
 
           {/* Close button */}
           <button
@@ -124,19 +105,17 @@ export default function CompletionScreen({
                 Powered By
               </span>
               <a
-                href="https://dk24.org/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center hover:opacity-80 transition-opacity"
-              >
-                <div className="w-20 h-20 shrink-0 overflow-hidden">
-                  <img
-                    src="/dk24.webp"
-                    alt="DK24"
-                    className="w-full h-full object-contain scale-125"
-                  />
-                </div>
-              </a>
+                  href="https://dk24.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 hover:opacity-80 transition-opacity"
+                >
+                   <img
+                      src="/Consortium Logo.svg"
+                      alt="DK24"
+                      className="h-15 sm:h-15 w-auto object-contain"
+                    />
+                </a>
             </div>
 
             {/* In Collaboration Section */}

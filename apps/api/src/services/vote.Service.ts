@@ -37,10 +37,6 @@ export const submitVote = async (
   userId: string,
   vote: VoteRequest
 ) => {
-  if (!isVotingOpen()) {
-    throw new Error('Voting is currently closed');
-  }
-
   const { stallId, rating } = vote
   const ormDb = getDb(env.DB)
 
@@ -80,11 +76,11 @@ export const submitVote = async (
         .select({ stallId: ratings.stallId })
         .from(ratings)
         .where(eq(ratings.userId, userId));
-
+      
       const stallIds = userRatings
         .map(r => r.stallId)
         .filter((id): id is number => id !== null);
-
+      
       await refreshStallAggregates(env.DB, stallIds);
     } else {
       // Normal vote (could be qualified or not, but only this stall is affected)
