@@ -4,7 +4,11 @@ import { QrCode, CheckCircle2, Lock } from 'lucide-react';
 function cn(...classes: (string | undefined | boolean | null | Record<string, boolean>)[]) {
   return classes.filter(Boolean).map(c => {
     if (typeof c === 'object') {
-      return Object.entries(c!).filter(([_, v]) => v).map(([k, _]) => k).join(' ');
+      // Fix: Only filter by value without capturing the key
+      return Object.entries(c!)
+        .filter((entry) => entry[1])
+        .map((entry) => entry[0])
+        .join(' ');
     }
     return c;
   }).join(' ');
@@ -28,7 +32,6 @@ export default function ProgressScreen({
   // Always use the server's synced progress as the ultimate source of truth, fallback to local if 0
   const localRatedCount = Object.keys(ratings).length;
   const ratedCount = Math.max(serverProgress, localRatedCount);
-
 
   return (
     <div className="fixed inset-0 overflow-y-auto overflow-x-hidden bg-[#070014]">
@@ -73,15 +76,15 @@ export default function ProgressScreen({
               </div>
 
               <div className="grid grid-cols-4 gap-3">
-                {Array.from({ length: totalCount }).map((_, i) => {
-                  const status = ratings[String(i + 1)] !== undefined ? 'rated' : 'locked';
+                {Array.from({ length: totalCount }).map((_, index) => {
+                  const status = ratings[String(index + 1)] !== undefined ? 'rated' : 'locked';
 
                   return (
                     <motion.div
-                      key={`slot-${i}`}
+                      key={`slot-${index}`}
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: i * 0.03 }}
+                      transition={{ delay: index * 0.03 }}
                       className={cn(
                         "aspect-square rounded-2xl flex flex-col items-center justify-center border transition-all relative overflow-hidden",
                         status === 'locked'
@@ -122,7 +125,7 @@ export default function ProgressScreen({
                 <div className="flex items-start gap-4">
                   <span className="text-xl leading-none pt-0.5 drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]">🏆</span>
                   <p className="text-white/90 text-sm font-medium leading-snug">
-                    You are voting for the People’s Choice Award.
+                    You are voting for the People's Choice Award.
                   </p>
                 </div>
 
@@ -175,7 +178,6 @@ export default function ProgressScreen({
                       className="w-full h-full object-contain scale-110"
                     />
                   </div>
-
                 </a>
               </div>
 
@@ -225,9 +227,6 @@ export default function ProgressScreen({
               </div>
             </div>
           </div>
-
-          {/* Directory Section */}
-
         </main>
       </div>
     </div>
