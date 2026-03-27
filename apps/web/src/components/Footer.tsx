@@ -8,45 +8,45 @@ export default function Footer({
   variant = "default",
 }: FooterProps) {
   const bgClasses =
-    variant === "default"
-      ? "bg-gradient-to-r from-[#FF2D55] to-[#FF6321] border-t border-white/10"
-      : "bg-transparent";
+    variant === "transparent"
+      ? "!bg-none !bg-transparent"
+      : "bg-gradient-to-r from-[#FF2D55] to-[#FF6321] border-t border-white/10";
 
   return (
     <footer
-      className={`w-full flex flex-col items-center px-4 pt-4 pb-1 shrink-0 mt-auto z-20 relative text-white ${bgClasses} ${className}`}
+      className={`w-full flex flex-col items-center px-4 pt-4 pb-1 shrink-0 mt-auto z-20 relative text-white pointer-events-auto ${bgClasses} ${className}`}
     >
-      <div className="flex flex-row items-stretch justify-center gap-4 sm:gap-8 w-full max-w-lg">
-        <div className="flex flex-col items-center justify-between">
-          <span className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] font-bold opacity-60 text-center font-display mb-2">
+      <div className="flex flex-col items-center justify-center gap-6 sm:gap-8 w-full max-w-lg">
+
+        {/* POWERED BY */}
+        <div className="flex flex-col items-center">
+          <span className="text-[10px] sm:text-[12px] uppercase tracking-[0.2em] font-bold opacity-70 text-center mb-2">
             Powered By
           </span>
+
           <a
             href="https://dk24.org/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-1.5 hover:opacity-80 transition-opacity mt-auto"
+            className="flex items-center justify-center cursor-pointer hover:opacity-80 transition"
           >
-            <div className="w-6 h-6 sm:w-8 sm:h-8 shrink-0 overflow-hidden">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 overflow-hidden">
               <img
                 src="/dk24.webp"
                 alt="DK24"
                 className="w-full h-full object-contain"
               />
             </div>
-            <span className="text-xs sm:text-sm font-bold font-display tracking-widest whitespace-nowrap">
-              DK24
-            </span>
           </a>
         </div>
 
-        <div className="w-px bg-white/20"></div>
-
-        <div className="flex flex-col items-center justify-between">
-          <span className="text-[8px] sm:text-[10px] uppercase tracking-[0.2em] font-bold opacity-60 text-center font-display mb-2">
-            In Collaboration
+        {/* COLLAB */}
+        <div className="flex flex-col items-center">
+          <span className="text-[10px] sm:text-[12px] uppercase tracking-[0.2em] font-bold opacity-70 text-center mb-2 sm:mb-3">
+            In Collaboration With
           </span>
-          <div className="flex items-center justify-center gap-2 sm:gap-3 mt-auto">
+
+          <div className="flex items-center gap-4 sm:gap-6">
             {[
               {
                 id: 1,
@@ -72,19 +72,20 @@ export default function Footer({
                 href={logo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col items-center"
+                className="cursor-pointer hover:scale-105 transition-transform"
               >
-                <div className="w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center backdrop-blur-sm hover:bg-white/20 transition-all group overflow-hidden rounded-md">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center">
                   <img
                     src={logo.src}
                     alt={logo.alt}
-                    className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity p-0.5 sm:p-1"
+                    className="w-full h-full object-contain"
                   />
                 </div>
               </a>
             ))}
           </div>
         </div>
+
       </div>
     </footer>
   );
